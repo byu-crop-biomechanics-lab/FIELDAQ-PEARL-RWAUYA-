@@ -35,6 +35,7 @@ class TestDetailScreen(BaseScreen):
     y_max = NumericProperty(1)
     x_major = NumericProperty(1)
     y_major = NumericProperty(1)
+    load_cell_height = StringProperty('N/A')
     datasets = []
     pot_angle = []
     imu_angle = []
@@ -44,6 +45,7 @@ class TestDetailScreen(BaseScreen):
     def __init__(self, **kwargs):
         super(BaseScreen, self).__init__(**kwargs)
         def gui_init(dt):
+            self.change_load_cell_height_screen = self.manager.get_screen('change_load_cell_height_screen')
             self.test_notes_screen = self.manager.get_screen('test_notes_screen')
             self.parent_screen = self
         Clock.schedule_once(gui_init)
@@ -83,6 +85,9 @@ class TestDetailScreen(BaseScreen):
                 if 'POST' in row[0]:
                     if len(row[1]) !=0:
                         self.notes.append(str(row[1]))
+
+                if 'HEIGHT' in row[0] and row[0] != 'BREAK_HEIGHT':
+                    self.load_cell_height = str(row[1])
 
         # Set the data
         self.ids['test_notes'].list_data = self.notes
@@ -132,4 +137,10 @@ class TestDetailScreen(BaseScreen):
     
     def update_notes(self):
         self.test_notes_screen.set_file(self.fileName)
-        super(TestDetailScreen, self).move_to('test_notes_screen')
+        super(TestDetailScreen, self).move_to('test_notes_screen')    
+
+
+    def update_load_cell_height(self):
+        self.change_load_cell_height_screen.set_file(self.fileName)
+        self.change_load_cell_height_screen.set_height(self.load_cell_height)
+        super(TestDetailScreen, self).move_to('change_load_cell_height_screen')

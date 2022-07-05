@@ -15,6 +15,10 @@
                 text: 'Update Notes'
                 on_release:
                     root.update_notes()
+            GranuSideButton:
+                text: 'Height:\n'+root.load_cell_height+ 'cm'
+                on_release:
+                    root.update_load_cell_height()
 
         GranuContent:
 
