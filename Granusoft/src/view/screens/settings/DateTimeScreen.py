@@ -36,8 +36,9 @@ class DateTimeScreen(BaseScreen):
         if valid:
             try:
                 txt = str(date_time).split(' ')
-                config.set('timezone',txt[2]) 
-                os.system('sudo date -s '+txt[0]+' '+txt[1])
+                msg = '\''+txt[0]+' '+txt[1]+'\''
+                config.set('timezone',txt[2])
+                os.system('sudo date -s '+msg) 
                 return True
             except:
                 return False
