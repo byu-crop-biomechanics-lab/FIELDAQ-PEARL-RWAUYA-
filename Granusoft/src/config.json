@@ -1,0 +1,29 @@
+{
+    "operator": 0,
+    "height": 95.5,
+    "prev_height": 0,
+    "plot_num": 0,
+    "barcode_scan": "OFF",
+    "height_sensor": "ON",
+    "folder": " ",
+    "selected_folder": " ",
+    "unwanted_folder": " ",
+    "height_notification": "ON",
+    "timezone":"",
+    "folders": [
+        " "
+    ],
+    "notes": {
+        "pretest": [],
+        "posttest": [],
+        "bank": []
+    },
+    "test_notes": {
+        "pretest": [],
+        "posttest": [],
+        "bank": []
+    },
+    "break_height": "N/A",
+    "curr_test_num": 1,
+    "sensors": {}
+}
