@@ -16,6 +16,10 @@ class DateTimeScreen(BaseScreen):
     def on_pre_enter(self):
         input = self.ids['datetime']
         input.text = ''
+        try:
+            os.system('sudo timedatectl set-ntp false')
+        except:
+            pass
 
     def on_enter(self):
         """Once the Screen loads, focus the Texinputnput"""
@@ -30,10 +34,13 @@ class DateTimeScreen(BaseScreen):
         valid = input.validate()
 
         if valid:
-            txt = str(date_time).split(' ') 
-            os.system('sudo timedatectl set-ntp false')
-            os.system('sudo date -s '+txt[0]+' '+txt[1])
-            return True
+            try:
+                txt = str(date_time).split(' ')
+                config.set('timezone',txt[2]) 
+                os.system('sudo date -s '+txt[0]+' '+txt[1])
+                return True
+            except:
+                return False
         else:
             input.show_invalid()
             input.focus = True
