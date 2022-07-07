@@ -134,14 +134,14 @@ class TestsScreen(BaseScreen):
                 if name != '.gitignore':
                     copyfile('Tests/' + foldername+'/'+ name, path + '/' + subFold + "/" + name)
                     # os.remove('Tests/' + name)
-                    os.rename('Tests/' + name, 'TestArchive/' + subFold + '/' + name)
+                    os.rename('Tests/' + foldername+'/'+ name, 'TestArchive/' + subFold + '/' + name)
                 self.dismiss_popup()
         except:
             config.save_as(os.path.join(path, configName))
             for name in self.test_filenames:
                 if name != '.gitignore':
                     print(path)
-                    copyfile('Tests/'+foldername+'/' + name, path + '/' + name)
+                    copyfile('Tests/'+foldername+'/' + name, path + '/' + subFold + "/" + name)
                     # os.remove('Tests/' + name)
                     os.rename('Tests/'+foldername+'/' + name, 'TestArchive/' + subFold + '/' + name)
                 self.dismiss_popup()
