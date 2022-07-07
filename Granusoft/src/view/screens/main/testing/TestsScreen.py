@@ -55,6 +55,9 @@ class NoUsbDialog(Popup):
     functions called when the save or cancel buttons are pressed.'''
     cancel = ObjectProperty(None)
 
+class ExportInProgress(Popup):
+    pass
+
 class TestsScreen(BaseScreen):
     USB_TEST_FOLDERS_PATH = '/mnt/usbStick'
 
@@ -91,6 +94,9 @@ class TestsScreen(BaseScreen):
     def dismiss_popup(self):
         self._popup.dismiss()
 
+    def dismiss_popup2(self):
+        self._popup2.dismiss()
+
     def export_tests(self, obj):
         if not os.path.ismount(self.USB_TEST_FOLDERS_PATH):
             try:
@@ -124,6 +130,9 @@ class TestsScreen(BaseScreen):
         foldername = config.get('selected_folder',0)
         subFold = foldername+'_' + dt.strftime('%Y_%m_%d')
 
+        self._popup2 = ExportInProgress()
+        self._popup2.open()
+
         try:
             if not os.path.exists(path+'/'+subFold):
                 os.makedirs(path + '/' + subFold)
@@ -134,25 +143,20 @@ class TestsScreen(BaseScreen):
             config.save_as(os.path.join(path + '/' + subFold, configName))
             for name in self.test_filenames:
                 if name != '.gitignore':
-                    #copyfile('Tests/' + foldername+'/'+ name, path + '/' + subFold + "/" + name)
                     os.system('sudo cp '+'Tests/' + foldername+'/'+ name+' '+path + '/' + subFold + "/" + name)
-                    # os.remove('Tests/' + name)
-                    #os.rename('Tests/' + name, 'TestArchive/' + subFold + '/' + name)
                     os.system('sudo mv '+'Tests/' +foldername+'/'+ name+' TestArchive/' + subFold + '/' + name)         
         except:
             config.save_as(os.path.join(path, configName))
             for name in self.test_filenames:
                 if name != '.gitignore':
                     print(path)
-                    #copyfile('Tests/'+foldername+'/' + name, path + '/' + name)
                     os.system('sudo cp '+'Tests/' + foldername+'/'+ name+' '+path + '/' + subFold + "/" + name)
-                    # os.remove('Tests/' + name)
-                    #os.rename('Tests/'+foldername+'/' + name, 'TestArchive/' + subFold + '/' + name)
                     os.system('sudo mv'+' Tests/' + foldername+'/'+ name+' TestArchive/' + subFold + '/' + name)
 
-                
+               
         self.test_filenames = [f for f in listdir("Tests") if (isfile(join("Tests", f)) and f != ".gitignore")]
         self.ids['tests_list'].list_data = self.test_filenames
+        self.dismiss_popup2()
 
     def set_test_name(self):
         ts = TestSingleton()
