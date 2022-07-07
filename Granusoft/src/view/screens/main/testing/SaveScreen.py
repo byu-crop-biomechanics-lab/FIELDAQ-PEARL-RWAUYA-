@@ -111,7 +111,7 @@ class SaveScreen(BaseScreen):
             writer.writerow(['MONTH', dt.strftime("%m")])
             writer.writerow(['DAY', dt.strftime("%d")])
             writer.writerow(
-                ['TIME', self.current_time(), 'Local Time'])
+                ['TIME', self.current_time(), config.get('timezone',0)])
             writer.writerow(['PLOT', str(config.get('plot_num', 0)), '#'])
             writer.writerow(['HEIGHT', str(config.get('height', 0)), 'cm'])
             writer.writerow(['BARCODE', str(barcode.text)])
