@@ -118,10 +118,12 @@ class TestsScreen(BaseScreen):
         self._popup.open()
 
     def save(self, path):
+        self.dismiss_popup()
         dt = datetime.datetime.now()
         configName = 'config_' + dt.strftime('%Y_%m_%d_%H_%M_%S') + '.txt'
-        subFold = 'Tests_' + dt.strftime('%Y_%m_%d')
         foldername = config.get('selected_folder',0)
+        subFold = foldername+'_' + dt.strftime('%Y_%m_%d')
+
         try:
             if not os.path.exists(path+'/'+subFold):
                 os.makedirs(path + '/' + subFold)
@@ -132,19 +134,23 @@ class TestsScreen(BaseScreen):
             config.save_as(os.path.join(path + '/' + subFold, configName))
             for name in self.test_filenames:
                 if name != '.gitignore':
-                    copyfile('Tests/' + foldername+'/'+ name, path + '/' + subFold + "/" + name)
+                    #copyfile('Tests/' + foldername+'/'+ name, path + '/' + subFold + "/" + name)
+                    os.system('sudo cp '+'Tests/' + foldername+'/'+ name+' '+path + '/' + subFold + "/" + name)
                     # os.remove('Tests/' + name)
-                    os.rename('Tests/' + foldername+'/'+ name, 'TestArchive/' + subFold + '/' + name)
-                self.dismiss_popup()
+                    #os.rename('Tests/' + name, 'TestArchive/' + subFold + '/' + name)
+                    os.system('sudo mv '+'Tests/' +foldername+'/'+ name+' TestArchive/' + subFold + '/' + name)         
         except:
             config.save_as(os.path.join(path, configName))
             for name in self.test_filenames:
                 if name != '.gitignore':
                     print(path)
-                    copyfile('Tests/'+foldername+'/' + name, path + '/' + subFold + "/" + name)
+                    #copyfile('Tests/'+foldername+'/' + name, path + '/' + name)
+                    os.system('sudo cp '+'Tests/' + foldername+'/'+ name+' '+path + '/' + subFold + "/" + name)
                     # os.remove('Tests/' + name)
-                    os.rename('Tests/'+foldername+'/' + name, 'TestArchive/' + subFold + '/' + name)
-                self.dismiss_popup()
+                    #os.rename('Tests/'+foldername+'/' + name, 'TestArchive/' + subFold + '/' + name)
+                    os.system('sudo mv'+' Tests/' + foldername+'/'+ name+' TestArchive/' + subFold + '/' + name)
+
+                
         self.test_filenames = [f for f in listdir("Tests") if (isfile(join("Tests", f)) and f != ".gitignore")]
         self.ids['tests_list'].list_data = self.test_filenames
 
