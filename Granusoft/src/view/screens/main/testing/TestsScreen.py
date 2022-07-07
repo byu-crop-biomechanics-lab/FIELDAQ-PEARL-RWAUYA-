@@ -136,7 +136,7 @@ class TestsScreen(BaseScreen):
                     os.system('sudo cp '+'Tests/' + foldername+'/'+ name+' '+path + '/' + subFold + "/" + name)
                     # os.remove('Tests/' + name)
                     #os.rename('Tests/' + name, 'TestArchive/' + subFold + '/' + name)
-                    os.system('sudo mv '+'Tests/' + name+' TestArchive/' + subFold + '/' + name)
+                    os.system('sudo mv '+'Tests/' +foldername+'/'+ name+' TestArchive/' + subFold + '/' + name)
 
                 self.dismiss_popup()
         except:
@@ -148,7 +148,7 @@ class TestsScreen(BaseScreen):
                     os.system('sudo cp '+'Tests/' + foldername+'/'+ name+' '+path + '/' + subFold + "/" + name)
                     # os.remove('Tests/' + name)
                     #os.rename('Tests/'+foldername+'/' + name, 'TestArchive/' + subFold + '/' + name)
-                    os.system('sudo mv'+' Tests/' + name+' TestArchive/' + subFold + '/' + name)
+                    os.system('sudo mv'+' Tests/' + foldername+'/'+ name+' TestArchive/' + subFold + '/' + name)
                 self.dismiss_popup()
         self.test_filenames = [f for f in listdir("Tests") if (isfile(join("Tests", f)) and f != ".gitignore")]
         self.ids['tests_list'].list_data = self.test_filenames
