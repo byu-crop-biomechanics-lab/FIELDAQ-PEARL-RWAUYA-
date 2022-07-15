@@ -37,7 +37,8 @@
                 on_release: root.cancel()
             NavButton:
                 text: "Save"
-                on_release: root.save(filechooser.path)
+                on_release: 
+                    root.save(filechooser.path)
 
 <SaveConfirmDialog>:
     size_hint: (0.55, 0.77)
@@ -68,7 +69,8 @@
                 on_release: root.pathSelector()
             NavButton:
                 text: "Save to\nUSB"
-                on_release: root.save('/mnt/usbStick')
+                on_release: 
+                    root.save('/mnt/usbStick')
 
 
 <ExportInProgress>:
