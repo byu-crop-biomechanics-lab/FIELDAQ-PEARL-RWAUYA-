@@ -12,7 +12,7 @@ import configurator as config
 
 from TestSingleton import TestSingleton
 from shutil import copyfile
-import datetime
+import datetime, time
 
 from kivy.uix.popup import Popup
 
@@ -43,6 +43,7 @@ class SaveTestDialog(Popup):
     save = ObjectProperty(None)
     cancel = ObjectProperty(None)
 
+
 class SaveConfirmDialog(Popup):
     '''A dialog to save a file.  The save and cancel properties point to the
     functions called when the save or cancel buttons are pressed.'''
@@ -50,10 +51,14 @@ class SaveConfirmDialog(Popup):
     pathSelector = ObjectProperty(None)
     cancel = ObjectProperty(None)
 
+
 class NoUsbDialog(Popup):
     '''A dialog to save a file.  The save and cancel properties point to the
     functions called when the save or cancel buttons are pressed.'''
     cancel = ObjectProperty(None)
+
+class ExportInProgress(Popup):
+    pass
 
 class TestsScreen(BaseScreen):
     USB_TEST_FOLDERS_PATH = '/mnt/usbStick'
@@ -76,7 +81,7 @@ class TestsScreen(BaseScreen):
     def on_pre_enter(self):
         foldername = "Tests/"+config.get('selected_folder',0)
         self.test_filenames = [f for f in listdir(foldername) if (isfile(join(foldername, f)) and f != ".gitignore")]
-
+        self.num_files = len([f for f in listdir(foldername) if (isfile(join(foldername, f)) and f != ".gitignore")])
         self.default_buttons()
 
         self.ids['tests_list'].list_data = self.test_filenames
@@ -91,6 +96,11 @@ class TestsScreen(BaseScreen):
     def dismiss_popup(self):
         self._popup.dismiss()
 
+    
+    def closeSelectorPopup(self,path):
+        self.dismiss_popup()
+        self.save(path)
+
     def export_tests(self, obj):
         if not os.path.ismount(self.USB_TEST_FOLDERS_PATH):
             try:
@@ -99,11 +109,10 @@ class TestsScreen(BaseScreen):
                 print("USB Not Mounted")
         self._popup = SaveConfirmDialog(save=self.usbSave, pathSelector=self.pathSelector, cancel=self.dismiss_popup)
         self._popup.open()
-        # print("We should export all tests!")
 
-    def pathSelector(self): # , obj):
+    def pathSelector(self):
         self.dismiss_popup()
-        self._popup = SaveTestDialog(save=self.save, cancel=self.dismiss_popup)
+        self._popup = SaveTestDialog(save=self.closeSelectorPopup, cancel=self.dismiss_popup)
         self._popup.open()
 
     def usbSave(self, path):
@@ -119,11 +128,12 @@ class TestsScreen(BaseScreen):
 
     def save(self, path):
         self.dismiss_popup()
+        self.open_export_popup()
         dt = datetime.datetime.now()
         configName = 'config_' + dt.strftime('%Y_%m_%d_%H_%M_%S') + '.txt'
         foldername = config.get('selected_folder',0)
         subFold = foldername+'_' + dt.strftime('%Y_%m_%d')
-
+        files_transferred = 0
         try:
             if not os.path.exists(path+'/'+subFold):
                 os.makedirs(path + '/' + subFold)
@@ -134,25 +144,32 @@ class TestsScreen(BaseScreen):
             config.save_as(os.path.join(path + '/' + subFold, configName))
             for name in self.test_filenames:
                 if name != '.gitignore':
-                    #copyfile('Tests/' + foldername+'/'+ name, path + '/' + subFold + "/" + name)
-                    os.system('sudo cp '+'Tests/' + foldername+'/'+ name+' '+path + '/' + subFold + "/" + name)
-                    # os.remove('Tests/' + name)
-                    #os.rename('Tests/' + name, 'TestArchive/' + subFold + '/' + name)
-                    os.system('sudo mv '+'Tests/' +foldername+'/'+ name+' TestArchive/' + subFold + '/' + name)         
+                    copyfile('Tests/' + foldername+'/'+ name, path + '/' + subFold + "/" + name)
+                    os.rename('Tests/' + foldername+'/' + name, 'TestArchive/' + subFold + '/' + name)
+                    files_transferred+=1
+                    print(files_transferred)         
         except:
             config.save_as(os.path.join(path, configName))
             for name in self.test_filenames:
                 if name != '.gitignore':
-                    print(path)
-                    #copyfile('Tests/'+foldername+'/' + name, path + '/' + name)
-                    os.system('sudo cp '+'Tests/' + foldername+'/'+ name+' '+path + '/' + subFold + "/" + name)
-                    # os.remove('Tests/' + name)
-                    #os.rename('Tests/'+foldername+'/' + name, 'TestArchive/' + subFold + '/' + name)
-                    os.system('sudo mv'+' Tests/' + foldername+'/'+ name+' TestArchive/' + subFold + '/' + name)
+                    copyfile('Tests/' + foldername+'/'+ name, path + '/' + subFold + "/" + name)
+                    os.rename('Tests/' + foldername+'/' + name, 'TestArchive/' + subFold + '/' + name)
+                    files_transferred+=1
+                    print(files_transferred)      
 
-                
+               
         self.test_filenames = [f for f in listdir("Tests") if (isfile(join("Tests", f)) and f != ".gitignore")]
         self.ids['tests_list'].list_data = self.test_filenames
+
+        if self.num_files == files_transferred:
+            self.dismiss_export_popup()
+
+    def open_export_popup(self):
+        self._popup = ExportInProgress()
+        self._popup.open()
+
+    def dismiss_export_popup(self):
+        self._popup.dismiss()
 
     def set_test_name(self):
         ts = TestSingleton()

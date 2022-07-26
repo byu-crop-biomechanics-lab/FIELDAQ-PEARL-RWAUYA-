@@ -5,8 +5,8 @@
     "plot_num": 0,
     "barcode_scan": "OFF",
     "height_sensor": "ON",
-    "folder": " ",
-    "selected_folder": " ",
+    "folder": "Mail",
+    "selected_folder": "Mail",
     "unwanted_folder": " ",
     "height_notification": "ON",
     "timezone": "",
@@ -24,6 +24,6 @@
         "bank": []
     },
     "break_height": "N/A",
-    "curr_test_num": 1,
+    "curr_test_num": 13,
     "sensors": {}
 }
