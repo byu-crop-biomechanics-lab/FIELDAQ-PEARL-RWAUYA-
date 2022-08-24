@@ -94,10 +94,10 @@ class SaveScreen(BaseScreen):
                     str("%.7f" % sensor_data["Location"][1])]
 
         self.config_data = config.get('sensors', {})
-        self.NAMES = ['X Load', 'Y Load', 'IMU Angle', 'Pot Angle']
-        self.SENSOR = ['LOAD_X', 'LOAD_Y', 'IMU', 'POT']
-        self.UNITS = ['Pounds', 'Pounds', 'Deg', 'Deg']
-        self.IDS = ['loadx1', 'loady1', 'imu1', 'pot1']
+        self.NAMES = ['X Load', 'Y Load', 'IMU Angle', 'Pot Angle', 'Temperature', 'Humidity']
+        self.SENSOR = ['LOAD_X', 'LOAD_Y', 'IMU', 'POT','TEMP','HUM']
+        self.UNITS = ['Pounds', 'Pounds', 'Deg', 'Deg','C','%']
+        self.IDS = ['loadx1', 'loady1', 'imu1', 'pot1','temp1','hum1']
 
         with open(filename, 'w+', newline='') as csvFile:
             writer = csv.writer(csvFile)
@@ -115,6 +115,8 @@ class SaveScreen(BaseScreen):
             writer.writerow(['PLOT', str(config.get('plot_num', 0)), '#'])
             writer.writerow(['HEIGHT', str(config.get('height', 0)), 'cm'])
             writer.writerow(['BARCODE', str(barcode.text)])
+            writer.writerow(['TEMPERATURE', 'N/A', 'C'])
+            writer.writerow(['HUMIDITY', 'N/A', '%'])
             writer.writerow(['LATITUDE', location[0], 'angular degrees'])
             writer.writerow(['LONGITUDE', location[1], 'angular degrees'])
             writer.writerow(['----------OPTIONAL DATA----------'])
