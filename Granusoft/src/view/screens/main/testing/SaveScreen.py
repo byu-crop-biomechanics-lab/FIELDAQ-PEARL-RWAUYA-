@@ -32,6 +32,7 @@ class SaveScreen(BaseScreen):
         use_barcode = config.get('barcode_scan', "OFF")
         barcode = self.ids['barcode']
         barcode.text = ""
+        self.check_height_sensor_status()
 
         if use_barcode == "OFF":
             self.save_test()
