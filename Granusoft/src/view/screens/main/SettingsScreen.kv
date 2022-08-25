@@ -8,7 +8,7 @@
         orientation: "vertical"
         FileChooserIconView:
             id: filechooser
-            path: str(Path.home())
+            path: str(root.home)
         BoxLayout:
             size_hint_y: None
             height: 30
@@ -40,7 +40,7 @@
                 multiline: False
         FileChooserIconView:
             id: filechooser
-            path: str(Path.home())
+            path: str(root.home)
             on_selection: filename.text = self.selection and self.selection[0] or ''
         BoxLayout:
             size_hint_y: None
