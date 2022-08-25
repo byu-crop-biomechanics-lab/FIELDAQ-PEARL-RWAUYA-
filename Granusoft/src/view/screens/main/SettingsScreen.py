@@ -34,20 +34,25 @@ class SettingsScreen(BaseScreen):
         self._popup.dismiss()
 
     def show_load(self):
+        self.mount_usb()
         self._popup = LoadDialog(load=self.load, cancel=self.dismiss_popup)
         self._popup.open()
 
     def show_save(self):
+        self.mount_usb()
         self._popup = SaveDialog(save=self.save, cancel=self.dismiss_popup)
         self._popup.open()
 
     def load(self, path, filename):
         config.load_from(os.path.join(path, filename))
         self.dismiss_popup()
+        self.unmount_usb()
 
     def save(self, path, filename):
         config.save_as(os.path.join(path, filename))
         self.dismiss_popup()
+        self.unmount_usb()
+
 
     def update_os_git(self):
         os.system("git pull")
@@ -58,3 +63,15 @@ class SettingsScreen(BaseScreen):
         os.system("sudo cp -r /mnt/usbStick/FIELDAQ/ ~/") # The pi's cp command has strange behavior
         os.system("sudo umount /mnt/usbStick")
         os.system("python3 main.py")
+
+    def mount_usb(self):
+        try:
+            os.system("sudo mount -t vfat -o uid=pi,gid=pi /dev/sda1 /mnt/usbStick")
+        except:
+            pass
+
+    def unmount_usb(self):
+        try:
+           os.system("sudo umount /mnt/usbStick")
+        except:
+            pass 
