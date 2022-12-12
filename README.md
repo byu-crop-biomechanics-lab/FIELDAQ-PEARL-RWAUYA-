@@ -20,14 +20,14 @@ The software is designed to be run on the RaspberryPi, but can also be run on an
 The Documentation directory contains many useful files, some of which have been mentioned previously. Documentation that has been found to be the most useful is listed here:
 - [Setup Software for Non-RPi Computers.txt](https://github.com/byu-crop-biomechanics-lab/FIELDAQ/blob/master/Documentation/Setup%20Software%20for%20Non-RPi%20Computers.txt) -  Information on how to get the GUI running on a non-RaspberryPi computer for software development.
 - [Software Update Procedure.md](https://github.com/byu-crop-biomechanics-lab/FIELDAQ/blob/master/Documentation/Software%20Update%20Procedure.md) - Information on how to utilize a USB drive or Github when updating the on-device software.
-- [FIELDAQ_Software_Diagrams.pdf](https://github.com/byu-crop-biomechanics-lab/FIELDAQ/blob/master/Documentation/FIELDAQ_Software_flowchart.pdf) - Information about the screen navigation for the GUI and how each screen is built using kivy elements/widgets.
+- [FIELDAQ Software Diagram](https://github.com/rwauya/FIELDAQ/blob/main/Documentation/FIELDAQ_Software_flowchart.pdf) - Information about the screen navigation for the GUI and how each screen is built using kivy elements/widgets.
 - [Example_Adding a Boot Screen.docx](https://github.com/byu-crop-biomechanics-lab/FIELDAQ/blob/master/Documentation/Example_Adding%20a%20Boot%20Screen.docx) - A hypothetical situation where a boot screen is created to choose between the Camera test mode and the Stalk Push testing mode.
 
 
-Additionaly, a brief overview of all the documentation is provide here:
+Additionaly, a brief overview of all the documentation is provided here:
 ### Structural Information of the Code Base (how is it assembled)
 - [Directory Tree.txt](https://github.com/byu-crop-biomechanics-lab/FIELDAQ/blob/master/Documentation/Directory%20Tree.txt) -  Overview of the directories in the repository. With information about the contents of each directory.
-- [FIELDAQ_Software_Diagrams.pdf](https://github.com/byu-crop-biomechanics-lab/FIELDAQ/blob/master/Documentation/FIELDAQ_Software_flowchart.pdf) - 	Information about the screen navigation for the GUI and how each screen is built using kivy elements/widgets.
+- [FIELDAQ Software Diagram](https://github.com/rwauya/FIELDAQ/blob/main/Documentation/FIELDAQ_Software_flowchart.pdf) - 	Information about the screen navigation for the GUI and how each screen is built using kivy elements/widgets.
 - [Software Flowchart and Logic.docx](https://github.com/byu-crop-biomechanics-lab/FIELDAQ/blob/master/Documentation/Software%20Flowchart%20and%20Logic.docx) - 	Supplementary to FIELDAQ_Software_Diagrams, this document contains more information about the purpose of each screen.
 - [Software Documentation Outdated.pdf](https://github.com/byu-crop-biomechanics-lab/FIELDAQ/blob/master/Documentation/Software%20Documentation%20Outdated.pdf) - 	An old resource containing the Classes and Methods contained in every file. This was last updated at the end of capstone, and may contain some useful information still. An updated version can be compiled using [DoxyGen](https://www.doxygen.nl/index.html) (version. 1.8.15).
 ### Background Information (how do the pieces work)
